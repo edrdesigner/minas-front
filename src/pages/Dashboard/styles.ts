@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface OriginalPriceProps {
+  hasDiscount?: boolean;
+}
 
 export const Container = styled.div``;
 
@@ -55,11 +59,16 @@ export const ProductTableList = styled.table`
   }
 `;
 
-export const OriginalPriceText = styled.span`
+export const OriginalPriceText = styled.span<OriginalPriceProps>`
   font-size: 14px;
   color: #666;
-  text-decoration: line-through;
   margin-right: 5px;
+
+  ${props =>
+    props.hasDiscount &&
+    css`
+      text-decoration: line-through;
+    `}
 `;
 
 export const DiscoutedPrice = styled.span`

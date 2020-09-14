@@ -123,16 +123,21 @@ const Dashboard: React.FC = () => {
                 <p>{product.description}</p>
               </td>
               <td width="200" className="column--price">
-                <OriginalPriceText>
+                <OriginalPriceText
+                  hasDiscount={product.discount != null && product.discount > 0}
+                >
                   {formatValue(product.price)}
                 </OriginalPriceText>
-                por
-                {product.discount && (
-                  <DiscoutedPrice>
-                    {formatValue(
-                      product.price - (product.price * product.discount) / 100,
-                    )}
-                  </DiscoutedPrice>
+                {product.discount != null && product.discount > 0 && (
+                  <>
+                    por
+                    <DiscoutedPrice>
+                      {formatValue(
+                        product.price -
+                          (product.price * product.discount) / 100,
+                      )}
+                    </DiscoutedPrice>
+                  </>
                 )}
               </td>
             </tr>
