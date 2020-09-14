@@ -48,7 +48,7 @@ const Dashboard: React.FC = () => {
     async (params?: object) => {
       setFetching(true);
 
-      const { data } = await api.get('/products', {
+      const { data } = await api.get('products', {
         params: {
           ...pagination,
           ...params,
@@ -106,42 +106,46 @@ const Dashboard: React.FC = () => {
           <MetaTitle>{`${meta?.total} PRODUTOS ENCONTRADOS`}</MetaTitle>
         )}
         <ProductTableList>
-          {products.map(product => (
-            <tr key={product.id}>
-              <td width="370">
-                {product?.images.length > 0 &&
-                  product.images.map(image => (
-                    <img
-                      key={image.id}
-                      src={image.url}
-                      alt={`${product.title} img ${image.id}`}
-                    />
-                  ))}
-              </td>
-              <td>
-                <strong>{product.title}</strong>
-                <p>{product.description}</p>
-              </td>
-              <td width="200" className="column--price">
-                <OriginalPriceText
-                  hasDiscount={product.discount != null && product.discount > 0}
-                >
-                  {formatValue(product.price)}
-                </OriginalPriceText>
-                {product.discount != null && product.discount > 0 && (
-                  <>
-                    por
-                    <DiscoutedPrice>
-                      {formatValue(
-                        product.price -
-                          (product.price * product.discount) / 100,
-                      )}
-                    </DiscoutedPrice>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
+          <tbody>
+            {products.map(product => (
+              <tr key={product.id}>
+                <td width="370">
+                  {product?.images.length > 0 &&
+                    product.images.map(image => (
+                      <img
+                        key={image.id}
+                        src={image.url}
+                        alt={`${product.title} img ${image.id}`}
+                      />
+                    ))}
+                </td>
+                <td>
+                  <strong>{product.title}</strong>
+                  <p>{product.description}</p>
+                </td>
+                <td width="200" className="column--price">
+                  <OriginalPriceText
+                    hasDiscount={
+                      product.discount != null && product.discount > 0
+                    }
+                  >
+                    {formatValue(product.price)}
+                  </OriginalPriceText>
+                  {product.discount != null && product.discount > 0 && (
+                    <>
+                      por
+                      <DiscoutedPrice>
+                        {formatValue(
+                          product.price -
+                            (product.price * product.discount) / 100,
+                        )}
+                      </DiscoutedPrice>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </ProductTableList>
         <PaginationContainer>
           <Pagination
